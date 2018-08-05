@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title>Clipboard & Local Storage</title>
+    </head>
+    <body>
+        <!-- Dummy paragraphs to be able to copy some text -->
+        <p id="para1">1. This is paragraph 1</p>
+        <button id="copy_btn" onclick="copy_store(1)">Copy</button>
+
+        <p id="para2">2. This is paragraph 2</p>
+        <button id="copy_btn" onclick="copy_store(2)">Copy</button>
+
+        <p id="para3">3. This is paragraph 3</p>
+        <button id="copy_btn" onclick="copy_store(3)">Copy</button>
+
+        <p id="para4">4. This is paragraph 4</p>
+        <button id="copy_btn" onclick="copy_store(4)">Copy</button>
+        
+        <div id="container"></div>
+    </body>
+    <script>
+        // Display all the previously copied text on the screen
+        display_clipboard();
+
+        // Function to select a specific paragraph
+        function select(para_num){
+            // Create a Range object
+            var range = document.createRange();
+
+            // Gets the Selection object
+            var selection = window.getSelection();
+
+            // Specifies what is to be selected
+            range.selectNodeContents(document.getElementById('para' + para_num));
+
+            // Removes any previous selections
+            selection.removeAllRanges();
+
+            // Adds the selection to only the given range
+            selection.addRange(range);
+        }
+
+        // Function to copy selected text and store information
+        function copy_store(para_num){
+            // Select text for the specific paragraph
+            select(para_num);
+
+            var text = document.getElementById('para' + para_num).innerHTML;
+
+            // Store the key-value pair in local storage
+            // Args list: setItem(key, value)
+            localStorage.setItem('para' + para_num, text);
+            
+            try {
+                // Trigger copy event
+                document.execCommand('copy');
+            } catch (err) {
+                console.log('Error: ' + err);
+            }
+        }
+
+        // Function to display the clipboard
+        function display_clipboard(){
+            var html = "<h1>Contents</h1>";
+
+            // Get all stored keys from localStorage
+            keys = Object.keys(localStorage);
+
+            // For each item, display it's value
+            for(var i = 0; i < localStorage.length; i++){
+                html += localStorage.getItem(keys[i]) + "<br>";
+            }
+
+            document.getElementById('container').innerHTML = html;
+        }
+    </script>
+</html>

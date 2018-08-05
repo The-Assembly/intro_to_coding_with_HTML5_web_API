@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Clipboard & WebSQL</title>
+    </head>
+    <body>
+        <!-- Dummy paragraphs to be able to copy some text -->
+        <p id="para1">1. This is paragraph 1</p>
+        <button id="copy_btn" onclick="copy_store(1)">Copy</button>
+
+        <p id="para2">2. This is paragraph 2</p>
+        <button id="copy_btn" onclick="copy_store(2)">Copy</button>
+
+        <p id="para3">3. This is paragraph 3</p>
+        <button id="copy_btn" onclick="copy_store(3)">Copy</button>
+
+        <p id="para4">4. This is paragraph 4</p>
+        <button id="copy_btn" onclick="copy_store(4)">Copy</button>
+        
+        <div id="container"></div>
+    </body>
+    <script>
+        // Open the database
+        // Args list: openDatabase( db_name, version, description, size )
+        var db = openDatabase('clipboard', '1.0', 'Clipboard DB', 2 * 1024 * 1024);
+        
+        // Onload
+        create_local_table(); // Create table called clips
+        get_data(); // Retrieve data from table and display
+        
+        // Function to create a table in the database
+        function create_local_table(){
+            db.transaction (
+                function(transaction) {
+                    transaction.executeSql("CREATE TABLE IF NOT EXISTS clips(text TEXT NOT NULL)");
+                }
+            );
+        }
+
+        // Function to retrieve information from the database and display it
+        function get_data(){
+            db.transaction(
+                function(transaction){
+                    transaction.executeSql('SELECT * FROM clips;', [],
+                        function dataHandler(transaction, results){
+                            // Reference to the HTML element that'll hold the data
+                            var container = document.getElementById('container');
+
+                            // Add content to the container with retrieved rows
+                            var html = "<h2>Contents</h2>";
+                            for(var i = 0; i < results.rows.length; i++){
+                                html += results.rows.item(i).text + "<br>";
+                            }
+
+                            container.innerHTML = html;
+                        }
+                    );
+                }
+            );
+        }
+
+        // Function to select a specific paragraph
+        function select(para_num){
+            // Create a Range object
+            var range = document.createRange();
+
+            // Gets the Selection object
+            var selection = window.getSelection();
+
+            // Specifies what is to be selected
+            range.selectNodeContents(document.getElementById('para' + para_num));
+
+            // Removes any previous selections
+            selection.removeAllRanges();
+
+            // Adds the selection to only the given range
+            selection.addRange(range);
+        }
+
+        // Function to copy selected text and store information
+        function copy_store(para_num){
+            // Select text for the specific paragraph
+            select(para_num);
+
+            // Get text from <p> tag
+            var text = document.getElementById('para' + para_num).innerHTML;
+
+            try {
+                // Trigger copy event
+                document.execCommand('copy');
+            } catch (err) {
+                console.log('Error: ' + err);
+            }
+
+            // Added copied text to the DB
+            db.transaction(
+                function(transaction) {
+                    transaction.executeSql('INSERT INTO clips (text) VALUES ("' + text + '");');
+                },
+            );
+        }
+    </script>
+</html>

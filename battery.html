@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<title>Battery Status</title>
+	</head>
+
+	<body>
+		<h2>What's my battery level?</h2>
+		<h3 id="battery_level"></h3>
+
+		<br>
+
+		<h2>How long before my battery runs out?</h2>
+		<h3 id="battery_discharge"></h3>
+
+		<br>
+	
+		<h2>Is my laptop charging?</h2>
+		<h3 id="battery_charging"></h3>
+	</body>
+
+	<script>
+		navigator.getBattery().then(function(battery){
+			// Displays the current battery level
+			document.getElementById('battery_level').innerHTML = battery.level * 100 + "%"; // Get value in percentage
+
+			// Displays time left before the battery runs out
+			document.getElementById('battery_discharge').innerHTML = battery.dischargingTime / 60 / 60; // Get time in hours
+
+			// Displays if battery is charging (Yes!) or not (No)
+			document.getElementById('battery_charging').innerHTML = (battery.charging ==  true) ? 'Yes!' : 'No';
+		});
+	</script>
+</html>

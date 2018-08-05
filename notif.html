@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Notification</title>
+	</head>
+	<body>
+		<!-- Paragraph to display notification permission status -->
+		<p id="perm"></p>
+		
+		<!-- Button to trigger the notification event -->
+		<button onclick="notify()">Notify</button>
+	</body>
+	<script>
+		// Function that displays a notification on click of button
+		function notify(){
+			// Get permission from user to display the notification
+			// through the browser
+			Notification.requestPermission().then(function(result){
+				// Display the permission status on the screen
+				// 'granted', 'denied' or 'dismissed'
+				document.getElementById('perm').innerHTML = result;
+
+				// If the permission was granted, send a notification
+				if(Notification.permission == "granted"){
+					var notification = new Notification("Hey there!");
+				}
+			});
+		}
+	</script>
+</html>

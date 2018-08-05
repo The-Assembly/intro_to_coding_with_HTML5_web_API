@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<title>Page Visibility</title>
+	</head>
+	<body>
+		
+	</body>
+	<script>
+		// Event listener to detect change in tab visibility
+		document.addEventListener('visibilitychange', function(){
+			// Check if the tab has gone out of focus or is hidden
+			if(document.hidden){
+				// Tab is hidden
+				document.title = "COME BACK!";	
+			} else {
+				// Tab is visible
+				document.title = "Yay!";
+			}
+		});
+	</script>
+</html>

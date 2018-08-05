@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>Geolocation</title>
+	</head>
+	<body>
+		<!-- Paragraph to display the user's current location -->
+		<p id="location"></p>
+	</body>
+	<script>
+		// Get current position
+		navigator.geolocation.getCurrentPosition(function(pos){
+			// Display the latitude and longitude on the paragraph
+			document.getElementById('location').innerHTML = pos.coords.latitude + ", " + pos.coords.longitude;
+		});
+	</script>
+</html>

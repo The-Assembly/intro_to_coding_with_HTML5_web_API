@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Clipboard & IndexedDB</title>
+    </head>
+    <body>
+        <!-- Dummy paragraphs to be able to copy some text -->
+        <p id="para1">1. This is paragraph 1</p>
+        <button id="copy_btn" onclick="copy_store(1)">Copy</button>
+
+        <p id="para2">2. This is paragraph 2</p>
+        <button id="copy_btn" onclick="copy_store(2)">Copy</button>
+
+        <p id="para3">3. This is paragraph 3</p>
+        <button id="copy_btn" onclick="copy_store(3)">Copy</button>
+
+        <p id="para4">4. This is paragraph 4</p>
+        <button id="copy_btn" onclick="copy_store(4)">Copy</button>
+        
+        <div id="container"></div>
+    </body>
+    <script>
+        // In the following line, you should include the prefixes of implementations you want to test.
+        window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+        // DON'T use "var indexedDB = ..." if you're not in a function.
+        // Moreover, you may need references to some window.IDB* objects:
+        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"}; // This line should only be needed if it is needed to support the object's constants for older browsers
+        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+
+        // Check if IndexedDB is supported
+        if (!window.indexedDB) {
+            window.alert("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+        }
+
+        // Open the database
+        var db;
+        
+        // Name the database 'clipboard_db' and the version as 1
+        request = window.indexedDB.open("clipboard_db", 1);
+
+        data = [];
+
+        // In case there was an error
+        request.onerror = function(event) {
+            alert("Error in creating database");
+        };
+
+        // If the operation was successful
+        request.onsuccess = function(event) {
+            db = event.target.result;
+
+            // Call the function to retrieve information and display it
+            get_data();
+        };
+
+        // This event is only implemented in recent browsers   
+        request.onupgradeneeded = function(event) { 
+            var db = event.target.result;
+
+            // Create an objectStore to hold information about our clips.
+            objectStore = db.createObjectStore("clips", { keyPath: "id" });
+        };
+
+        // Function to select a specific paragraph
+        function select(para_num){
+            // Create a Range object
+            var range = document.createRange();
+
+            // Gets the Selection object
+            var selection = window.getSelection();
+
+            // Specifies what is to be selected
+            range.selectNodeContents(document.getElementById('para' + para_num));
+
+            // Removes any previous selections
+            selection.removeAllRanges();
+
+            // Adds the selection to only the given range
+            selection.addRange(range);
+        }
+
+        // Function to copy selected text and store information
+        function copy_store(para_num){
+            // Get text from <p> tag
+            var text = document.getElementById('para' + para_num).innerHTML;
+
+            // Store information on the data variable
+            data.push({id: para_num, para: text});
+
+            // Create an object store to hold your copied text and open it for read/write
+            var dataStore = db.transaction("clips", "readwrite").objectStore("clips");
+            
+            // For each item in the data variable, add it to the database
+            data.forEach(function(data) {
+                dataStore.add(data);
+            });
+            
+            // Select text for the specific paragraph
+            select(para_num);
+
+            try {
+                // Trigger copy event
+                document.execCommand('copy');
+            } catch (err) {
+                console.log('Error: ' + err);
+            }
+        }
+
+        // Function to retrieve data from database and display it
+        function get_data(){
+            // Get a reference to the object store where our copied text is stored
+            var objectStore = db.transaction(["clips"]).objectStore("clips");
+            
+            // Open cursor to iterate over the objects in the object store
+            var request = objectStore.openCursor();
+
+            // Get reference to the HTML element where data is displayed
+            var container = document.getElementById('container');
+            container.innerHTML = "<h1>Contents</h1>";
+            
+            // Handle errors in case object store couldn't be accessed
+            request.onerror = function(event) {
+                // Handle errors!
+                console.log('Error accessing data');
+            };
+            
+            // If the request is successful, output it on the screen
+            request.onsuccess = function(event) {
+                let cursor = event.target.result;
+                
+                // Get all records
+                if (cursor) {
+                    // Values on the database
+                    let value = cursor.value;
+
+                    // Display data in HTML element
+                    // value.para -> para is the column name given in the object store
+                    container.innerHTML += value.para + "<br>";
+
+                    // Move the cursor to the next item if any
+                    cursor.continue();
+                }
+            };
+        }
+    </script>
+</html>
