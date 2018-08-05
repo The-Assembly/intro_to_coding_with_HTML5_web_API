@@ -545,7 +545,7 @@ The codes below demonstrate how a user's copied text can be stored locally in cl
 </html>
 ```
 ## Device Motion (Using p5.js)
-The DeviceMotionEvent provides web developers with information about the speed of changes for the device's position and orientation.
+The DeviceMotionEvent provides web developers with information about the speed of changes for the device's position and orientation. P5.js can be found [here](https://p5js.org/).
 
 ### Demo
 The following demo shows how to make a ball move according to the device's motion.
