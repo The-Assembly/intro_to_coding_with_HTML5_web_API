@@ -10,7 +10,11 @@ WebAPI is a term used to refer to a suite of device compatibility and access API
 3. [Geolocation](#geolocation)
 4. [Page Visibility](#page-visibility)
 5. [Screen Orientation & Vibration (Mobile Only)](#screen-orientation-vibration-mobile-only)
+<<<<<<< HEAD
 7. [Clipboard & IndexedDB/WebSQL/LocalStorage](#clipboard-&-indexeddb-websql-localstorage)
+=======
+7. [Clipboard & IndexedDB/WebSQL/LocalStorage](#clipboard-indexeddb-websql-localstorage)
+>>>>>>> 81984af1d5fe51da76518f22047bb619478317ce
 9. [Device Motion (Using p5.js)](#device-motion-using-p5js)
 
 ## Battery Status
