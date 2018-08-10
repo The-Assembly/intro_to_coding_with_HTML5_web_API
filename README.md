@@ -166,7 +166,7 @@ Using the **Page Visibility API**, the following code shows how to perform actio
 ```
 For reference, [visit this link.](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)
 
-## Screen Orientation & Vibration (Mobile Only)
+## Screen Orientation and Vibration
 The **Screen Orientation API** provides the orientation of the screen being used and the **Vibration API** offers web apps the ability to access the vibration hardware, which lets software code provide physical feedback to the user by causing the device to shake.
 
 ### Demo
@@ -219,7 +219,7 @@ The following code combines the two APIs (Screen Orientation and Vibration) to m
 
 For reference, visit [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Managing_screen_orientation) and [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API).
 
-## Clipboard & IndexedDB/WebSQL/LocalStorage
+## Clipboard and IndexedDB/WebSQL/LocalStorage
 The **Clipboard API** ([reference](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)) is a modern API providing asynchronous functions and secure context support allowing developers to access the clipboard.
 
 **IndexedDB** ([reference](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)) is a low-level API for client-side storage of significant amounts of structured data, including files/blobs. This API uses indexes to enable high-performance searches of this data.
