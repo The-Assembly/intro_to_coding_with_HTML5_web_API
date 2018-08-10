@@ -9,13 +9,9 @@ WebAPI is a term used to refer to a suite of device compatibility and access API
 2. [Notification](#notification)
 3. [Geolocation](#geolocation)
 4. [Page Visibility](#page-visibility)
-5. [Screen Orientation & Vibration (Mobile Only)](#screen-orientation-vibration-mobile-only)
-<<<<<<< HEAD
-7. [Clipboard & IndexedDB/WebSQL/LocalStorage](#clipboard-&-indexeddb-websql-localstorage)
-=======
-7. [Clipboard & IndexedDB/WebSQL/LocalStorage](#clipboard-indexeddb-websql-localstorage)
->>>>>>> 81984af1d5fe51da76518f22047bb619478317ce
-9. [Device Motion (Using p5.js)](#device-motion-using-p5js)
+5. [Screen Orientation and Vibration](#screen-orientation-and-vibration)
+6. [Clipboard and IndexedDB/WebSQL/LocalStorage](#clipboard-and-indexeddbwebsqllocalstorage)
+7. [Device Motion (Using p5.js)](#device-motion-using-p5js)
 
 ## Battery Status
 The **Battery Status API** provides information about the system's battery charge level and lets you be notified by events that are sent when the battery level or charging status change. This can be used to adjust your app's resource usage to reduce battery drain when the battery is low, or to save changes before the battery runs out in order to prevent data loss.
