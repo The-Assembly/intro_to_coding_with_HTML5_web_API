@@ -14,6 +14,8 @@
 			 vibration events at any time until the page is refreshed or destroyed.
 		-->
 		<button onclick="navigator.vibrate(0);" id="btn">Allow Vibrate</button>
+
+		<p id="orient"></p>
 	</body>
 	<script>
 		// Add an event listener to check for a change in the orientation
@@ -23,9 +25,14 @@
 			// 0 -> Straight/Portrait
 			// 90 -> Tilted to left
 			if(window.orientation == -90){
+				// Display tilt side on webpage
+				document.getElementById('orient').innerHTML = "Tilted Right";
+				
 				// Vibrate for 10 seconds
 				navigator.vibrate(10000);
 			} else if(window.orientation == 90){
+				document.getElementById('orient').innerHTML = "Tilted Left";
+
 				// Stop the vibration
 				navigator.vibrate(0);
 			}

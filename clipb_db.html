@@ -99,5 +99,10 @@
                 },
             );
         }
+
+        // Detect when text is copied
+        document.addEventListener('copy', function(e){
+            alert('copied');
+        });
     </script>
 </html>

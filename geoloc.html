@@ -12,5 +12,19 @@
 			// Display the latitude and longitude on the paragraph
 			document.getElementById('location').innerHTML = pos.coords.latitude + ", " + pos.coords.longitude;
 		});
+		
+		// Check for change in position
+		id = navigator.geolocation.watchPosition(
+					// On success
+					function(pos){
+						// Do something when the location is changed
+						console.log('Changed');
+					},
+					
+					// On error
+					function(){
+						console.log('Error');
+					}
+				);
 	</script>
 </html>

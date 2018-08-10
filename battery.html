@@ -27,7 +27,13 @@
 			document.getElementById('battery_discharge').innerHTML = battery.dischargingTime / 60 / 60; // Get time in hours
 
 			// Displays if battery is charging (Yes!) or not (No)
-			document.getElementById('battery_charging').innerHTML = (battery.charging ==  true) ? 'Yes!' : 'No';
+			document.getElementById('battery_charging').innerHTML = battery.charging ? 'Yes!' : 'No';
+
+			// Check for a battery level change
+			battery.addEventListener('levelchange', function(){
+				// Do something when battery level changes
+				alert('Changed');
+			});
 		});
 	</script>
 </html>

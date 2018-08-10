@@ -119,6 +119,20 @@ The following code gets the latitude and longitutde of the user's location and o
 			// Display the latitude and longitude on the paragraph
 			document.getElementById('location').innerHTML = pos.coords.latitude + ", " + pos.coords.longitude;
 		});
+		
+		// Check for change in position
+		id = navigator.geolocation.watchPosition(
+					// On success
+					function(pos){
+						// Do something when the location is changed
+						console.log('Changed');
+					},
+					
+					// On error
+					function(){
+						console.log('Error');
+					}
+				);
 	</script>
 </html>
 
@@ -179,6 +193,8 @@ The following code combines the two APIs (Screen Orientation and Vibration) to m
 			 vibration events at any time until the page is refreshed or destroyed.
 		-->
 		<button onclick="navigator.vibrate(0);" id="btn">Allow Vibrate</button>
+
+		<p id="orient"></p>
 	</body>
 	<script>
 		// Add an event listener to check for a change in the orientation
@@ -188,15 +204,21 @@ The following code combines the two APIs (Screen Orientation and Vibration) to m
 			// 0 -> Straight/Portrait
 			// 90 -> Tilted to left
 			if(window.orientation == -90){
+				// Display tilt side on webpage
+				document.getElementById('orient').innerHTML = "Tilted Right";
+				
 				// Vibrate for 10 seconds
 				navigator.vibrate(10000);
 			} else if(window.orientation == 90){
+				document.getElementById('orient').innerHTML = "Tilted Left";
+
 				// Stop the vibration
 				navigator.vibrate(0);
 			}
 		});
 	</script>
 </html>
+
 ```
 
 For reference, visit [Screen Orientation API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Managing_screen_orientation) and [Vibration API](https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API).
@@ -463,6 +485,11 @@ The codes below demonstrate how a user's copied text can be stored locally in cl
                 },
             );
         }
+
+        // Detect when text is copied
+        document.addEventListener('copy', function(e){
+            alert('copied');
+        });
     </script>
 </html>
 ```
