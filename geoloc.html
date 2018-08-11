@@ -5,12 +5,18 @@
 	<body>
 		<!-- Paragraph to display the user's current location -->
 		<p id="location"></p>
+
+		<p id="map"></p>
 	</body>
 	<script>
 		// Get current position
 		navigator.geolocation.getCurrentPosition(function(pos){
 			// Display the latitude and longitude on the paragraph
-			document.getElementById('location').innerHTML = pos.coords.latitude + ", " + pos.coords.longitude;
+			var latlong = pos.coords.latitude + "," + pos.coords.longitude;
+			document.getElementById('location').innerHTML = latlong;
+
+			var img_url = "http://maps.googleapis.com/maps/api/staticmap?center=" + latlong + "&zoom=14&size=400x300&sensor=false";
+			document.getElementById("map").innerHTML = "<img src='" + img_url + "'>";
 		});
 		
 		// Check for change in position
